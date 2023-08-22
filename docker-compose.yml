@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  db1:
+    image: postgres
+    container_name: kr_container_db
+    environment:
+      - POSTGRES_PASSWORD=?
+      - POSTGRES_USER=kr_container_db
+      - POSTGRES_DB=?
+      - PGDATA=/var/lib/postgresql/data
+    volumes:
+      - ./db/shortcut/data:/var/lib/postgresql/data
+    restart: always
+  controller:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - JDBC_URL=jdbc:postgresql://kr_container_db:5432/?
+      - JDBC_USERNAME=kr_container_db
+      - JDBC_PASSWORD=?
+      - JDBC_DRIVER=org.postgresql.Driver
+    container_name: kr_controller
+    depends_on:
+      - kr_container_db
