@@ -18,7 +18,10 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChainOAuth(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.cors()
+                .and()
+                .csrf(csrf -> csrf.disable());
         httpSecurity.addFilterBefore(jwtAuthenticationFilter,
                 UsernamePasswordAuthenticationFilter.class);
 
@@ -26,7 +29,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(
                 authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
-                        .requestMatchers("/register").permitAll().anyRequest().authenticated());
+                        .requestMatchers("/auth/**").permitAll().anyRequest().authenticated());
         return httpSecurity.build();
     }
 }

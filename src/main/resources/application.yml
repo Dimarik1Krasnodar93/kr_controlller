@@ -1,3 +1,4 @@
 security:
   jwt:
     secret-key: verysecretkey
+
