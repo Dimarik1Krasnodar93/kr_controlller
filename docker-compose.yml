@@ -1,8 +1,8 @@
 version: "3.9"
 services:
-  db1:
+  kr_container_db:
     image: postgres
-    container_name: kr_container_db
+    container_name: kr_container_db1
     environment:
       - POSTGRES_PASSWORD=?
       - POSTGRES_USER=kr_container_db
