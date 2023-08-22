@@ -12,7 +12,7 @@ import java.util.List;
 public class IndexController {
     @GetMapping("/users/all")
     public List<UserDto> getAllUsers() {
-        System.out.println("OK!!!");
-        return Collections.EMPTY_LIST;
+        UserDto userDto = new UserDto("Petr", "Ivanov");
+        return List.of(userDto);
     }
 }
