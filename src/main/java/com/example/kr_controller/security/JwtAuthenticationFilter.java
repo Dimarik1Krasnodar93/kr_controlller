@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
     private Optional<String> extractTokenFromRequest(HttpServletRequest request) {
         var token = request.getHeader("Authorization");
-        if (token.contains("Bearer ")) {
+        if (token!= null && token.contains("Bearer ")) {
             return Optional.of(token.substring(7));
         }
         return Optional.empty();

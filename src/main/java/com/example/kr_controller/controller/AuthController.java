@@ -17,6 +17,11 @@ public class AuthController {
     private final JwtIssue jwtIssue;
     private final UserService userService;
 
+    @GetMapping("/hello")
+    public String hello() {
+        return "ok";
+    }
+
     @PostMapping("/login")
     public LoginResponse login(@RequestBody @Validated LoginRequest loginRequest) throws Exception {
         if (!userService.authenticated(loginRequest)) {
