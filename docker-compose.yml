@@ -13,8 +13,8 @@ services:
     networks:
       - app-network
 
-  postgresql:
-    container_name: postgresql
+  db:
+    container_name: db
     image: postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -40,7 +40,7 @@ services:
       - "8080"
     depends_on:
       - nginx
-      - postgresql
+      - db
     restart: always
     networks:
       - app-network
