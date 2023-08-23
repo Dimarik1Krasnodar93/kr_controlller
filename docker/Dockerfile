@@ -3,3 +3,7 @@ WORKDIR kr_controller
 COPY . .
 RUN mvn install
 
+FROM openjdk:17.0.2-jdk
+WORKDIR kr_controller
+COPY --from=maven /kr_controller/target/controller.jar demo.jar
+CMD java -jar demo.jar
