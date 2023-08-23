@@ -15,7 +15,7 @@ public class MyConfig {
     public DataSource dataSource() {
         Properties properties = new Properties();
         try (InputStream bf
-                     = new BufferedInputStream(new FileInputStream("db/liquibase.properties"))) {
+                     = new BufferedInputStream(new FileInputStream("db/liquibase_test.properties"))) {
             properties.load(bf);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

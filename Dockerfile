@@ -7,4 +7,4 @@ FROM openjdk:17.0.2-jdk
 WORKDIR kr_controlller
 COPY --from=maven /kr_controlller/target/controller.jar demo.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app.jar"]
+CMD java -jar controller.jar
