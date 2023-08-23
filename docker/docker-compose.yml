@@ -1,2 +1,21 @@
 version: "4.0"
+services:
+  postgres:
+    image: "postgres:14.4"
+    ports:
+      - "9047:9047"
+    container_name: "kr_container_db"
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=kr_security
+    volumes:
+      - ./db/shortcut/data:/var/lib/postgresql/data
+  controller:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+
 

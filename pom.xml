@@ -75,7 +75,7 @@
 				<version>4.15.0</version>
 				<configuration>
 					<propertyFileWillOverride>true</propertyFileWillOverride>
-					<propertyFile>db/liquibase.properties</propertyFile>
+					<propertyFile>db/pliquibase.properties</propertyFile>
 				</configuration>
 			</plugin>
 		</plugins>
