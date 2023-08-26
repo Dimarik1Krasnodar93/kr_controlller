@@ -22,7 +22,7 @@ public class SecurityConfig {
         httpSecurity.cors()
                 .and()
                 .csrf(csrf -> csrf.disable());
-        httpSecurity.addFilterBefore(jwtAuthenticationFilter,
+        httpSecurity.addFilterAfter(jwtAuthenticationFilter,
                 UsernamePasswordAuthenticationFilter.class);
 
         httpSecurity
