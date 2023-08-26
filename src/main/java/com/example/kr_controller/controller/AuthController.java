@@ -22,7 +22,7 @@ public class AuthController {
         if (!userService.authenticated(loginRequest)) {
             throw new Exception("no authenticated");
         }
-        var token = jwtIssue.issue(1, loginRequest.getUsername(), List.of("USER"));
+         var token = jwtIssue.issue(1, loginRequest.getUsername(), List.of("USER"));
         return  LoginResponse.builder()
                 .accessToken(token)
                 .build();
