@@ -30,8 +30,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                 authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
                         .requestMatchers("/auth/**").permitAll().anyRequest()
-                        .permitAll());//временно
-                        //.authenticated());
+                       // .permitAll());//временно
+                        .authenticated());
         return httpSecurity.build();
     }
 }

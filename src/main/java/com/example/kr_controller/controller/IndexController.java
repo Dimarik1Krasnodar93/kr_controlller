@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 public class IndexController {
-    @GetMapping("/users/all")
+    @GetMapping("/users/findAll")
     public List<UserDto> getAllUsers() {
         UserDto userDto = new UserDto("Petr", "Ivanov");
         return List.of(userDto);
