@@ -29,7 +29,9 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(
                 authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
-                        .requestMatchers("/auth/**").permitAll().anyRequest().authenticated());
+                        .requestMatchers("/auth/**").permitAll().anyRequest()
+                        .permitAll());//временно
+                        //.authenticated());
         return httpSecurity.build();
     }
 }
