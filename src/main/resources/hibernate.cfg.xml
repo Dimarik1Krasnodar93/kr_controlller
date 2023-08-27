@@ -5,9 +5,9 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/users</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/kr_security</property>
         <property name="hibernate.connection.username">postgres</property>
-        <property name="hibernate.connection.password">258Yes129Msa</property>
+        <property name="hibernate.connection.password">password</property>
         <property name="hibernate.connection.pool_size">5</property>
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.show_sql">true</property>
