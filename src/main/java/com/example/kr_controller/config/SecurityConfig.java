@@ -29,6 +29,11 @@ public class SecurityConfig {
         httpSecurity.addFilterAfter(filter, UsernamePasswordAuthenticationFilter.class);
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
+                .logout(httpSecurityLogoutConfigurer ->
+                        httpSecurityLogoutConfigurer
+                                .logoutUrl("/logout")
+                                .deleteCookies("JWT")
+                                .invalidateHttpSession(true))
                 .authorizeHttpRequests(
                 authorizationManagerRequestMatcherRegistry
                         -> authorizationManagerRequestMatcherRegistry

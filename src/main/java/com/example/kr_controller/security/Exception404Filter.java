@@ -9,9 +9,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.condition.PathPatternsRequestCondition;
 import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.util.pattern.PathPattern;
 
 import java.io.IOException;
 
@@ -34,10 +36,10 @@ public class Exception404Filter extends OncePerRequestFilter {
 
     private HandlerMethod getHandlerMethod(String requestURI) {
         for (RequestMappingInfo info : requestMappingHandlerMapping.getHandlerMethods().keySet()) {
-            PatternsRequestCondition patternsCondition = info.getPatternsCondition();
+            PathPatternsRequestCondition patternsCondition = info.getPathPatternsCondition();
             if (patternsCondition != null) {
-                for (String pattern : patternsCondition.getPatterns()) {
-                    if (pathMatcher.match(pattern, requestURI)) {
+                for (PathPattern pattern : patternsCondition.getPatterns()) {
+                    if (pathMatcher.match(pattern.getPatternString(), requestURI)) {
                         return requestMappingHandlerMapping.getHandlerMethods().get(info);
                     }
                 }
