@@ -16,11 +16,11 @@ public class UserRepository {
         @Cleanup var session = sf.openSession();
         Optional<User> rsl = Optional.empty();
         session.beginTransaction();
-        rsl = session.createQuery("from User u where u.username = :1? and u.password = :2?", User.class)
-                .setParameter("1?", username)
-                .setParameter("2?", password)
+        rsl = session.createQuery("from User u where u.username = :username and u.password = :password", User.class)
+                .setParameter("username", username)
+                .setParameter("password", password)
                 .uniqueResultOptional();
-        session.beginTransaction().commit();
+        session.getTransaction().commit();
         return rsl;
     }
 }

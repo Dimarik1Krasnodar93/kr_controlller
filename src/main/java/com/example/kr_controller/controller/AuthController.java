@@ -4,7 +4,15 @@ import com.example.kr_controller.Component.JwtIssue;
 import com.example.kr_controller.dto.LoginRequest;
 import com.example.kr_controller.dto.LoginResponse;
 import com.example.kr_controller.service.UserService;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
+
+
+import org.apache.catalina.Session;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,13 +31,16 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public LoginResponse login(@RequestBody @Validated LoginRequest loginRequest) throws Exception {
+    public ResponseEntity<?> login(@RequestBody @Validated LoginRequest loginRequest, HttpServletResponse response) throws Exception {
         if (!userService.authenticated(loginRequest)) {
             throw new Exception("no authenticated");
         }
         var token = jwtIssue.issue(1, loginRequest.getUsername(), List.of("USER"));
-        return  LoginResponse.builder()
-                .accessToken(token)
-                .build();
+        Cookie cookie = new Cookie("JWT", token);
+        cookie.setMaxAge(7 * 24 * 60 * 60);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return ResponseEntity.ok("Login Successful");
     }
 }
