@@ -13,9 +13,7 @@ services:
       - ./db/shortcut/data:/var/lib/postgresql/data
   controller:
     build:
-      context: docker
+      context: .
       dockerfile: Dockerfile
     depends_on:
       - postgres
-
-
