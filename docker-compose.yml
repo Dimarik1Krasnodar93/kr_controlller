@@ -1,4 +1,4 @@
-version: '3.9'
+version: '2.2'
 
 services:
   nginx:
@@ -6,7 +6,7 @@ services:
     image: nginx:1.13
     restart: always
     ports:
-      - 85:85
+      - 80:80
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - web-root:/var/www/html
@@ -24,7 +24,7 @@ services:
       - "5432:5432"
     restart: always
     volumes:
-      - root/db/shortcut/data:/var/lib/postgresql/data
+      - ./db/shortcut/data:/var/lib/postgresql/data
     networks:
       - app-network
   app:
