@@ -1,0 +1,1 @@
+INSERT INTO my_users(username, password, enabled) values('admin', 'password', true)

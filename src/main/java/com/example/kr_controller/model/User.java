@@ -13,7 +13,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "users")
+@Table(name = "my_users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
