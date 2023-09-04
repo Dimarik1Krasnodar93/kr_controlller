@@ -19,12 +19,12 @@ services:
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_BASE: project_db
     ports:
       - "5432:5432"
     restart: always
     volumes:
       - ./db/shortcut/data:/var/lib/postgresql/data
-
     networks:
       - app-network
   app:
@@ -33,7 +33,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - "DB_HOST=postgresql"
+      - "DB_HOST=project_db"
       - "POSTGRES_USER=${POSTGRES_USER}"
       - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
       - "SERVER_PORT=8080"
@@ -45,16 +45,6 @@ services:
     restart: always
     networks:
       - app-network
-  kb-kr:
-      image: kr_kr_image
-      container_name: kb_kr
-      environment:
-          - "DB_HOST=postgresql"
-          - "POSTGRES_USER=${POSTGRES_USER}"
-          - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
-          - "SERVER_PORT=8081"
-      depends_on:
-        - db1
 
 volumes:
   web-root:
