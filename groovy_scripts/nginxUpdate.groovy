@@ -2,39 +2,48 @@ import com.example.kr_controller.UtilClass
 
 import java.util.stream.Collectors
 
-def processController = Runtime.runtime.exec("docker inspect kr_controller_master");
-def processIfConfig = Runtime.runtime.exec("ipconfig")
+def processController = Runtime.runtime.exec("docker inspect kr_controller_master")
+
+def processIfConfig
+
 def file = new File(System.getProperty("user.dir") + "/nginx/conf.d/default.conf")
 
-BufferedReader br2 = new BufferedReader(new InputStreamReader(new FileInputStream(file)))
+def listDefaultConf = UtilClass.creatingListOnFile(file)
 
-def list = UtilClass.creatingListOnInputStream(processIfConfig.getInputStream())
-if (list.get(0) != "not found") {
+String osName = System.getProperty("os.name")
 
+if (osName.toLowerCase(Locale.ROOT).contains("Windows".toLowerCase(Locale.ROOT))) {
+    processIfConfig = Runtime.runtime.exec("ipconfig")
+    def list = UtilClass.creatingListOnInputStream(processIfConfig.getInputStream())
+    String sOne = "127.0.0.1";
+    boolean b = false;
+    for (String s1 : list) {
+        if (s1.contains("Адаптер Ethernet Ethernet 2:") || s1.contains("Adapter Ethernet Ethernet 2:")) {
+            b = true;
+        }
+        if (b && s1.contains("IPv4")) {
+            sOne = s1.split(": ")[1]
+            break;
+        }
+    }
+    println(sOne)
+    listDefaultConf = UtilClass.injectIpInDefaultConf(listDefaultConf, sOne)
 } else {
     processIfConfig = Runtime.runtime.exec("ifconfig")
-    list = UtilClass.creatingListOnInputStream(processIfConfig.getInputStream())
-    String sOne = "127.0.0.1";
+    def list = UtilClass.creatingListOnInputStream(processIfConfig.getInputStream())
+    String sOne = "127.0.0.1"
     for (String s1 : list) {
         if (s1.contains("eth0")) {
-            int i1 = list.indexOf(s1);
-            String s2 = list.get(i1 + 1);
+            int i1 = list.indexOf(s1)
+            String s2 = list.get(i1 + 1)
             sOne = s2.substring(5, s2.indexOf(" netmask"))
             break
         }
     }
     println(sOne)
-    def listDefaultConf = br2.lines().collect(Collectors.toList())
-    def strLine = br2.lines().filter(str -> str.contains("server_name")).findFirst().get();
-    def line = new StringBuilder(strLine);
-    line = line.replaceAll(line.substring(line.indexOf("server_name") + 12, line.length()), sOne);
-    int strLineIndex = listDefaultConf.indexOf(strLine);
-    listDefaultConf.remove(strLineIndex)
-    listDefaultConf.add(line.toString())
-    br2.close();
+    listDefaultConf = UtilClass.injectIpInDefaultConf(listDefaultConf, sOne)
 }
-    BufferedReader br3 = new BufferedReader(new InputStreamReader(processController.getInputStream()));
-
+    BufferedReader br3 = new BufferedReader(new InputStreamReader(processController.getInputStream()))
     def listParameters = br3.lines().collect(Collectors.toList());
     boolean b = false;
 

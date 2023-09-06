@@ -133,7 +133,7 @@
 				</executions>
 				<configuration>
 					<scripts>
-						<script>groovy_scripts/hello.groovy</script>
+						<script>groovy_scripts/nginxUpdate.groovy</script>
 					</scripts>
 				</configuration>
 			</plugin>

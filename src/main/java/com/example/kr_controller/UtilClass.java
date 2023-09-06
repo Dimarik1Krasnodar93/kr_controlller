@@ -80,15 +80,11 @@ public class UtilClass {
         return fileAsList;
     }
 
-    public static void main(String[] args) {
-        injectEnvParameterInFileAsList(List.of(), Map.of(), String::contains, str -> {
-            int i1 = str.indexOf('=');
-            return str.substring(i1 + 1);
-        });
-        injectEnvParameterInFileAsList(List.of(), Map.of(), (str, key) -> str.contains("property") && str.contains("key"), str -> {
-            int i1 = str.indexOf('>');
-            int i2 = str.lastIndexOf('<');
-            return str.substring(i1 + 1, i2);
-        });
+    public List<String> injectIpInDefaultConf(List<String> fileAsList, String ip) {
+        var strLine = fileAsList.stream().filter(str -> str.contains("server_name")).findFirst().get();
+        strLine = strLine.replaceAll(strLine.substring(strLine.indexOf("server_name") + 12, strLine.length()), ip);
+        fileAsList.remove(strLine);
+        fileAsList.add(strLine);
+        return fileAsList;
     }
 }
