@@ -113,7 +113,7 @@
 				<executions>
 					<execution>
 						<id>generated_resources_on_env</id>
-						<phase>package</phase>
+						<phase>generate-resources</phase>
 						<goals>
 							<goal>execute</goal>
 						</goals>
