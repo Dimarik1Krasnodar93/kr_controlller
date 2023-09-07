@@ -38,7 +38,7 @@ if (osName.toLowerCase(Locale.ROOT).contains("Windows".toLowerCase(Locale.ROOT))
     var strLine = listDefaultConf.stream().filter(str -> str.contains("server_name")).findFirst().get();
     int i = listDefaultConf.indexOf(strLine);
     listDefaultConf.remove(strLine);
-    strLine = strLine.replace(strLine.substring(strLine.indexOf("server_name") + 12, strLine.length()), sOne) + ";";
+    strLine = strLine.replace(strLine.substring(strLine.indexOf("server_name") + 12, strLine.length()), sOne)
     listDefaultConf.add(i, strLine)
 } else {
     def processIfConfig = Runtime.runtime.exec("ifconfig")
@@ -61,7 +61,7 @@ if (osName.toLowerCase(Locale.ROOT).contains("Windows".toLowerCase(Locale.ROOT))
     var strLine = listDefaultConf.stream().filter(str -> str.contains("server_name")).findFirst().get();
     int i = listDefaultConf.indexOf(strLine);
     listDefaultConf.remove(strLine);
-    strLine = strLine.replace(strLine.substring(strLine.indexOf("server_name") + 12, strLine.length()), sOne) + ";";
+    strLine = strLine.replace(strLine.substring(strLine.indexOf("server_name") + 12, strLine.length()), sOne)
     listDefaultConf.add(i, strLine)
 }
 def s4;

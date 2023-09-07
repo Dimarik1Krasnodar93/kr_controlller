@@ -134,6 +134,8 @@
 				<configuration>
 					<scripts>
 						<script>groovy_scripts/nginxUpdate.groovy</script>
+						<script>groovy_scripts/hibernateUpdate.groovy</script>
+						<script>groovy_scripts/dbUpdate.groovy</script>
 					</scripts>
 				</configuration>
 			</plugin>
