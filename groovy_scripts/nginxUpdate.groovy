@@ -54,7 +54,7 @@ if (osName.toLowerCase(Locale.ROOT).contains("Windows".toLowerCase(Locale.ROOT))
         if (s1.contains("eth0")) {
             int i1 = list.indexOf(s1)
             String s2 = list.get(i1 + 1)
-            sOne = s2.substring(5, s2.indexOf(" netmask"))
+            sOne = s2.substring(s2.indexOf("inet ") + 5, s2.indexOf(" netmask"))
             break
         }
     }
@@ -69,8 +69,8 @@ if (osName != "Windows") {
     BufferedReader br3
             = new BufferedReader
             (new InputStreamReader(processController.getInputStream()))
-    def listParameters = br3.
-            println("dock")
+    def listParameters = br3.lines().collect(Collectors.toList())
+    println("dock")
     br3.close();
     boolean b = false;
     s4 = new StringBuilder("localhost");
@@ -97,6 +97,7 @@ s5 = str.replaceAll("#АдресКонтейнера", s4.toString()).replaceAll
 int i6 = listDefaultConf.indexOf(str);
     listDefaultConf.remove(str);
     listDefaultConf.add(i6, s5);
+
 PrintWriter printWriter = new PrintWriter(file)
 listDefaultConf.forEach(printWriter::println)
 printWriter.flush()
