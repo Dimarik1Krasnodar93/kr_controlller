@@ -65,12 +65,13 @@ if (osName.toLowerCase(Locale.ROOT).contains("Windows".toLowerCase(Locale.ROOT))
     listDefaultConf.add(i, strLine)
 }
 def s4;
+println(osName)
 if (osName != "Windows") {
     BufferedReader br3
             = new BufferedReader
             (new InputStreamReader(processController.getInputStream()))
     def listParameters = br3.lines().collect(Collectors.toList())
-    println("dock")
+    listParameters.forEach(str -> println(str))
     br3.close();
     boolean b = false;
     s4 = new StringBuilder("localhost");
@@ -83,9 +84,9 @@ if (osName != "Windows") {
             break
         }
     }
+    println(s4)
     if (s4.toString() != "localhost") {
-        s4 =
-                new StringBuilder(s4.toString().substring(1, s4.length() - 2));
+        s4 = new StringBuilder(s4.toString().substring(1, s4.length() - 2));
     }
     println(s4)
 }
