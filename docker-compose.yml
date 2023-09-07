@@ -41,7 +41,6 @@ services:
       - "8080"
     depends_on:
       - nginx
-      - db
     restart: always
     networks:
       - app-network

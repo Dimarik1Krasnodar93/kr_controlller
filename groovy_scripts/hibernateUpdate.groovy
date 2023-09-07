@@ -1,5 +1,3 @@
-import com.example.kr_controller.UtilClass
-
 import java.util.stream.Collectors
 
 def strPath = (System.getProperty("user.dir"))
