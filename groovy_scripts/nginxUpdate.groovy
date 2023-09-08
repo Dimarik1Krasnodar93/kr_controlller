@@ -71,14 +71,15 @@ if (!osName.contains("Windows")) {
             = new BufferedReader
             (new InputStreamReader(processController.getInputStream()))
     def listParameters = br3.lines().collect(Collectors.toList())
-    listParameters.forEach(str -> println(str))
     br3.close()
     boolean b = false
     for (String s : listParameters) {
         if (!b && s.contains("kr_controller_app_network")) {
+            println("----FIND KR_CONTROLLER_APP_NETWORK ----")
             b = true
         }
         if (b && s.contains("IPAddress")) {
+            println("----FIND IP_ADDRESS ----")
             s4 = new StringBuilder(s.split(": ")[1])
             break
         }
@@ -86,6 +87,7 @@ if (!osName.contains("Windows")) {
     println(s4)
     if (s4.toString() != "localhost") {
         s4 = new StringBuilder(s4.toString().substring(1, s4.length() - 2))
+        println(s4.toString())
     }
     println(s4)
 }
