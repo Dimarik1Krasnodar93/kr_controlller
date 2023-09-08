@@ -75,11 +75,12 @@ if (!osName.contains("Windows")) {
     boolean b = false
     for (String s : listParameters) {
         println(s)
-        if (!b && s.contains("kr_controlller_app-network")) {
+        if (!b && s.contains("\"Networks\": ") && listParameters
+                .get(listParameters.indexOf(s) + 1)
+                .contains("kr_controlller_app-network")) {
             println("----FIND KR_CONTROLLER_APP_NETWORK ----")
             b = true
-        }
-        if (b && s.contains("IPAddress")) {
+        } else if (b && s.contains("IPAddress")) {
             println("----FIND IP_ADDRESS ----")
             s4 = new StringBuilder(s.split(": ")[1])
             break
