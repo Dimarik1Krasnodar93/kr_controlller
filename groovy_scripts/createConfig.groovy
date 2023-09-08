@@ -6,12 +6,10 @@ Charset charset = System.getProperty("os.name").contains("Windows") ? Charset.fo
         : Charset.defaultCharset()
 def process = Runtime.getRuntime().exec(commandToJoinDb)
 
-BufferedReader errorBuffer = new BufferedReader(process.errorReader(charset));
 BufferedReader normalBuffer = new BufferedReader(new InputStreamReader(process.getInputStream()));
 List<String> normalList = normalBuffer.lines().collect(Collectors.toList())
 normalList.forEach(str -> println(str))
-errorBuffer.lines().forEach(str -> println(str))
-if (normalList.size() != 0 && errorBuffer.lines().count() == 0 && normalList.last().contains("psql")) {
+if (normalList.size() != 0 && normalList.last().contains("psql")) {
     def strPath = (System.getProperty("user.dir"))
     def envPath = strPath + "/.env"
 
