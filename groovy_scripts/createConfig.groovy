@@ -1,15 +1,20 @@
 import java.nio.charset.Charset
 import java.util.stream.Collectors
 
-String commandToJoinDb = "docker container exec --interactive --tty db psql -U postgres -w -d  postgres"
 Charset charset = System.getProperty("os.name").contains("Windows") ? Charset.forName("866")
         : Charset.defaultCharset()
-def process = Runtime.getRuntime().exec(commandToJoinDb)
 
-BufferedReader normalBuffer = new BufferedReader(new InputStreamReader(process.getInputStream()));
-List<String> normalList = normalBuffer.lines().collect(Collectors.toList())
-normalList.forEach(str -> println(str))
-if (normalList.size() != 0 && normalList.last().contains("psql")) {
+def process = Runtime.getRuntime().exec("docker inspect db");
+
+def buffer = new BufferedReader(new InputStreamReader(process.getInputStream()))
+
+boolean b = buffer.lines()
+        .filter(str -> str.contains("Status"))
+        .map(str -> str.split(": \"")[1])
+        .findFirst()
+        .get().contains("running");
+
+if (b) {
     def strPath = (System.getProperty("user.dir"))
     def envPath = strPath + "/.env"
 
@@ -23,18 +28,23 @@ if (normalList.size() != 0 && normalList.last().contains("psql")) {
                     .toLowerCase(Locale.ROOT), e -> e[1]))
     reader.close()
     println(map)
-    String command = "CREATE DATABASE " + map.get("db") + ";"
-    process = Runtime.runtime.exec(command)
-    br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+    StringBuilder command = new StringBuilder("docker container exec db createdb")
+            .append(map.get("db"))
+            .append("-U postgres -w");
+
+    process = Runtime.runtime.exec(command.toString())
+    def br = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
     if (!br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
         println("======СОЗДАНА БАЗА ДАННЫХ " + map.get("db") + "======")
     } else {
         println("======БАЗА ДАННЫХ " + map.get("db") + " УЖЕ СУЩЕСТВУЕТ.======")
     }
-
-    command = "CREATE USER " + map.get("user") + " WITH PASSWORD \'" + map.get("password") + "\' SUPERUSER;"
-    process = Runtime.runtime.exec(command);
+    command = new StringBuilder("docker container exec db psql -U postgres ")
+            .append("-w -d project_db  -c \"CREATE USER ")
+            .append(map.get("user")).append(" WITH PASSWORD \'")
+            .append(map.get("password")).append("\' SUPERUSER;\"")
+    process = Runtime.runtime.exec(command.toString())
     br = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
     if (!br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
@@ -47,8 +57,11 @@ if (normalList.size() != 0 && normalList.last().contains("psql")) {
             println("Изменить пароль? Y/N")
             String s = scanner.nextLine();
             if (s.toLowerCase(Locale.ROOT) == "y") {
-                command = "ALTER USER " + map.get("user") + "WITH PASSWORD \'" + map.get("password") + "\';"
-                Runtime.runtime.exec(command);
+                command = new StringBuilder("docker container exec db psql ")
+                        .append("-U postgres -w -d project_db  -c \"").append("ALTER USER ")
+                        .append(map.get("user")).append("WITH PASSWORD \'")
+                        .append(map.get("password")).append("\';\"")
+                Runtime.runtime.exec(command.toString());
             } else if (s.toLowerCase(Locale.ROOT) == "n") {
                 "======ОК======"
                 start = false;
