@@ -48,7 +48,9 @@ if (b) {
     process.closeStreams()
     process = Runtime.runtime.exec(command.toString())
     br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-    if (!br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
+    def brError = new BufferedReader(new InputStreamReader(process.getErrorStream()))
+    println(command.toString());
+    if (br.lines().count() == 0 && !br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
         println("======СОЗДАН ПОЛЬЗОВАТЕЛЬ " + map.get("user") + "======")
     } else {
         boolean start = true;
