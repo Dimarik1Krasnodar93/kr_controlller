@@ -16,6 +16,6 @@ public class SessionFactoryConfig {
     public SessionFactory sf() {
         StandardServiceRegistry registry
             = new StandardServiceRegistryBuilder().configure().build();
-        return new MetadataSources(registry).buildMetadata().buildSessionFactory();
+       return new MetadataSources(registry).buildMetadata().buildSessionFactory();
     }
 }
