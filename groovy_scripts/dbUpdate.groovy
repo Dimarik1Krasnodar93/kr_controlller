@@ -25,11 +25,18 @@ var tempList = new HashMap<Integer, String>();
 System.out.println(map);
 for (String str : list) {
     for (String key : map.keySet()) {
-        if (str.contains(key)) {
+        if (str.contains(key) && key != "db") {
             int i1 = str.indexOf('=');
             str2 =  str.substring(i1 + 1, str.length());
             int i3 = list.indexOf(str);
             str = str.replace(str2, map.get(key));
+            tempList.put(i3, str);
+        } else if (str.contains("url") && key == "db") {
+            int i1 = str.indexOf('=');
+            def str2 =  str.split('=')[1]
+            def str3 = str2.substring(str2.lastIndexOf("/") + 1, str2.length());
+            int i3 = list.indexOf(str);
+            str = str.replace(str2, str2.replaceAll(str3, map.get(key)));
             tempList.put(i3, str);
         }
     }

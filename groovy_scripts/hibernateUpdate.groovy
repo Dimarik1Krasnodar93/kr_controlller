@@ -27,13 +27,24 @@ var tempList = new HashMap<Integer, String>();
 System.out.println(map);
 for (String str : list) {
     for (String key : map.keySet()) {
-        if (str.contains(key) && str.contains("property")) {
+        if (str.contains(key) && str.contains("property") && key != "db") {
             int i1 = str.indexOf('>');
             int i2 = str.lastIndexOf('<');
-            str2 = str.substring(i1 + 1, i2);
+            def str2 = str.substring(i1 + 1, i2);
             int i3 = list.indexOf(str);
             str = str.replace(str2, map.get(key));
             tempList.put(i3, str);
+        } else if (str.contains("property") && str.contains("url") && key == "db") {
+            println(str)
+            int i1 = str.indexOf('>');
+            int i2 = str.lastIndexOf('<');
+            def str2 = str.substring(i1 + 1, i2);
+            println(str2)
+            def str3 = str2.substring(str2.lastIndexOf("/") + 1, str2.length())
+            println(str3)
+            def str4 = str2.replaceAll(str3, map.get(key));
+            int i3 = list.indexOf(str);
+            tempList.put(i3, str.replace(str2, str4));
         }
     }
 }

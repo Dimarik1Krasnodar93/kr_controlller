@@ -64,20 +64,19 @@ if (osName.toLowerCase(Locale.ROOT).contains("Windows".toLowerCase(Locale.ROOT))
     strLine = strLine.replace(strLine.substring(strLine.indexOf("server_name") + 12, strLine.length()), sOne)
     listDefaultConf.add(i, strLine)
 }
-def s4;
+StringBuilder s4 = new StringBuilder("121.32.12.34");;
 println(osName)
-if (osName != "Windows") {
+if (!osName.contains("Windows")) {
     BufferedReader br3
             = new BufferedReader
             (new InputStreamReader(processController.getInputStream()))
-    def listParameters = br3.lines().collect(Collectors.toList())
+    def listParameters = br3.lines().collect(Collectors.toList0())
     listParameters.forEach(str -> println(str))
-    br3.close();
-    boolean b = false;
-    s4 = new StringBuilder("localhost");
+    br3.close()
+    boolean b = false
     for (String s : listParameters) {
         if (!b && s.contains("kr_controller_app_network")) {
-            b = true;
+            b = true
         }
         if (b && s.contains("IPAddress")) {
             s4 = new StringBuilder(s.split(": ")[1])
@@ -86,7 +85,7 @@ if (osName != "Windows") {
     }
     println(s4)
     if (s4.toString() != "localhost") {
-        s4 = new StringBuilder(s4.toString().substring(1, s4.length() - 2));
+        s4 = new StringBuilder(s4.toString().substring(1, s4.length() - 2))
     }
     println(s4)
 }
@@ -94,11 +93,13 @@ def str = listDefaultConf
         .stream()
         .filter(str -> str.contains("proxy_pass"))
         .findFirst().get()
-s5 = str.replaceAll("#АдресКонтейнера", s4.toString()).replaceAll("#ПортПриложения", "8080")
-int i6 = listDefaultConf.indexOf(str);
-    listDefaultConf.remove(str);
-    listDefaultConf.add(i6, s5);
+def replacementPlace = str.substring(str.indexOf("s ") + 2, str.length())
+s4 = new StringBuilder("http://" + s4.toString())
+def s5 = str.replaceAll(replacementPlace, s4.append(":8080").toString())
 
+int i6 = listDefaultConf.indexOf(str)
+    listDefaultConf.remove(str)
+    listDefaultConf.add(i6, s5)
 PrintWriter printWriter = new PrintWriter(file)
 listDefaultConf.forEach(printWriter::println)
 printWriter.flush()
