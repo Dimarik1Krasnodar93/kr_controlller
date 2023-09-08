@@ -65,7 +65,6 @@ if (osName.toLowerCase(Locale.ROOT).contains("Windows".toLowerCase(Locale.ROOT))
     listDefaultConf.add(i, strLine)
 }
 StringBuilder s4 = new StringBuilder("121.32.12.34");;
-println(osName)
 if (!osName.contains("Windows")) {
     BufferedReader br3
             = new BufferedReader
@@ -74,7 +73,6 @@ if (!osName.contains("Windows")) {
     br3.close()
     boolean b = false
     for (String s : listParameters) {
-        println(s)
         if (!b && s.contains("\"Networks\": ") && listParameters
                 .get(listParameters.indexOf(s) + 1)
                 .contains("kr_controlller_app-network")) {
@@ -86,12 +84,10 @@ if (!osName.contains("Windows")) {
             break
         }
     }
-    println(s4)
     if (s4.toString() != "localhost") {
         s4 = new StringBuilder(s4.toString().substring(1, s4.length() - 2))
         println(s4.toString())
     }
-    println(s4)
 }
 def str = listDefaultConf
         .stream()

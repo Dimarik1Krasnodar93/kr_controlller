@@ -1,9 +1,14 @@
+import java.nio.charset.Charset
 import java.util.stream.Collectors
 
-String commandToJoinDb = "docker container exec -it db psql -U postgres -w -d  postgres"
+String commandToJoinDb = "help"
+Charset charset = System.getProperty("os.name").contains("Windows") ? Charset.forName("866")
+        : Charset.defaultCharset()
 def process = Runtime.runtime.exec(commandToJoinDb)
-BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-if (!br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
+BufferedReader errorBuffer = new BufferedReader(process.errorReader());
+BufferedReader normalBuffer = new BufferedReader(new InputStreamReader(process.getInputStream()));
+List<String> normalList = normalBuffer.lines().collect(Collectors.toList())
+if (normalList.size() != 0 && process.errorReader().lines().count() == 0 && normalList.last().contains("psql")) {
     def strPath = (System.getProperty("user.dir"))
     def envPath = strPath + "/.env"
 
@@ -16,7 +21,7 @@ if (!br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
                     -> e[0].split("_")[1]
                     .toLowerCase(Locale.ROOT), e -> e[1]))
     reader.close()
-
+    println(map)
     String command = "CREATE DATABASE " + map.get("db") + ";"
     process = Runtime.runtime.exec(command)
     br = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -49,4 +54,6 @@ if (!br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
             }
         }
     }
+} else {
+    println("======Ошибка, контейнера не существует======")
 }
