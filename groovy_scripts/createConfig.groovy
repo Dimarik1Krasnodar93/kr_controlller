@@ -56,5 +56,6 @@ if (normalList.size() != 0 && normalList.last().contains("psql")) {
         }
     }
 } else {
+    new BufferedReader(new InputStreamReader(process.getErrorStream())).lines().forEach(str -> println(str))
     println("======Ошибка, контейнера не существует======")
 }
