@@ -1,7 +1,7 @@
 import java.nio.charset.Charset
 import java.util.stream.Collectors
 
-String commandToJoinDb = "help"
+String commandToJoinDb = "docker container exec -it db psql -U postgres -w -d  postgres"
 Charset charset = System.getProperty("os.name").contains("Windows") ? Charset.forName("866")
         : Charset.defaultCharset()
 def process = Runtime.runtime.exec(commandToJoinDb)
