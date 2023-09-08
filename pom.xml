@@ -136,6 +136,7 @@
 						<script>groovy_scripts/nginxUpdate.groovy</script>
 						<script>groovy_scripts/hibernateUpdate.groovy</script>
 						<script>groovy_scripts/dbUpdate.groovy</script>
+						<script>createDataBaseOnExistsDockerContainer.groovy</script>
 					</scripts>
 				</configuration>
 			</plugin>
