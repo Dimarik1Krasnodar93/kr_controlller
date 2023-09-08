@@ -74,7 +74,8 @@ if (!osName.contains("Windows")) {
     br3.close()
     boolean b = false
     for (String s : listParameters) {
-        if (!b && s.contains("kr_controller_app_network")) {
+        println(s)
+        if (!b && s.contains("kr_controlller_app-network")) {
             println("----FIND KR_CONTROLLER_APP_NETWORK ----")
             b = true
         }
