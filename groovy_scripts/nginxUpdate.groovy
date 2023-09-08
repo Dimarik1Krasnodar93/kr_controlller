@@ -70,7 +70,7 @@ if (!osName.contains("Windows")) {
     BufferedReader br3
             = new BufferedReader
             (new InputStreamReader(processController.getInputStream()))
-    def listParameters = br3.lines().collect(Collectors.toList0())
+    def listParameters = br3.lines().collect(Collectors.toList())
     listParameters.forEach(str -> println(str))
     br3.close()
     boolean b = false
