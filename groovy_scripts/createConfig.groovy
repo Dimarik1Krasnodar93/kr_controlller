@@ -1,11 +1,12 @@
 import java.nio.charset.Charset
 import java.util.stream.Collectors
 
-String commandToJoinDb = "docker container exec -i db psql -U postgres -w -d  postgres"
+String commandToJoinDb = "docker container exec -it db psql -U postgres -w -d  postgres"
 Charset charset = System.getProperty("os.name").contains("Windows") ? Charset.forName("866")
         : Charset.defaultCharset()
 def process = Runtime.getRuntime().exec(commandToJoinDb)
-BufferedReader errorBuffer = new BufferedReader(new InputStreamReader(process.getErrorStream(), charset));
+
+BufferedReader errorBuffer = new BufferedReader(process.errorReader(charset));
 BufferedReader normalBuffer = new BufferedReader(new InputStreamReader(process.getInputStream()));
 List<String> normalList = normalBuffer.lines().collect(Collectors.toList())
 normalList.forEach(str -> println(str))
