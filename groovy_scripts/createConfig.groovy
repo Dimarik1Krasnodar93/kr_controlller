@@ -4,8 +4,8 @@ import java.util.stream.Collectors
 String commandToJoinDb = "docker container exec -it db psql -U postgres -w -d  postgres"
 Charset charset = System.getProperty("os.name").contains("Windows") ? Charset.forName("866")
         : Charset.defaultCharset()
-def process = Runtime.runtime.exec(commandToJoinDb)
-BufferedReader errorBuffer = new BufferedReader(process.errorReader(charset));
+def process = Runtime.getRuntime().exec(commandToJoinDb)
+BufferedReader errorBuffer = new BufferedReader(new InputStreamReader(process.getErrorStream(), charset));
 BufferedReader normalBuffer = new BufferedReader(new InputStreamReader(process.getInputStream()));
 List<String> normalList = normalBuffer.lines().collect(Collectors.toList())
 if (normalList.size() != 0 && errorBuffer.lines().count() == 0 && normalList.last().contains("psql")) {
