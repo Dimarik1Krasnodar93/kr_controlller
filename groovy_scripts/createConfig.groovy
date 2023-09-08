@@ -8,6 +8,9 @@ def process = Runtime.getRuntime().exec(commandToJoinDb)
 BufferedReader errorBuffer = new BufferedReader(new InputStreamReader(process.getErrorStream(), charset));
 BufferedReader normalBuffer = new BufferedReader(new InputStreamReader(process.getInputStream()));
 List<String> normalList = normalBuffer.lines().collect(Collectors.toList())
+println(normalList.size())
+println(errorBuffer.lines().count())
+println(normalList.last().contains("psql"))
 if (normalList.size() != 0 && errorBuffer.lines().count() == 0 && normalList.last().contains("psql")) {
     def strPath = (System.getProperty("user.dir"))
     def envPath = strPath + "/.env"
