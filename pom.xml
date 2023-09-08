@@ -112,19 +112,6 @@
 				<version>3.0.0</version>
 				<executions>
 					<execution>
-						<id>generated_resources_on_env</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>execute</goal>
-						</goals>
-						<configuration>
-							<scripts>
-								<script>groovy_scripts/hibernateUpdate.groovy</script>
-								<script>groovy_scripts/dbUpdate.groovy</script>
-							</scripts>
-						</configuration>
-					</execution>
-					<execution>
 						<id>generated_nginx_config</id>
 						<goals>
 							<goal>execute</goal>
@@ -136,7 +123,7 @@
 						<script>groovy_scripts/nginxUpdate.groovy</script>
 						<script>groovy_scripts/hibernateUpdate.groovy</script>
 						<script>groovy_scripts/dbUpdate.groovy</script>
-						<script>createDataBaseOnExistsDockerContainer.groovy</script>
+						<script>groovy_scripts/createDataBaseOnExistsDockerContainer.groovy</script>
 					</scripts>
 				</configuration>
 			</plugin>
