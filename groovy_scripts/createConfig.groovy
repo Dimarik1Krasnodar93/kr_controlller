@@ -34,10 +34,11 @@ if (b) {
 
     process = Runtime.runtime.exec(command.toString())
     def br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-    if (!br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
+    def brError = new BufferedReader(new InputStreamReader(process.getErrorStream()))
+    if (brError.lines().count() == 0 && !br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
         println("======СОЗДАНА БАЗА ДАННЫХ " + map.get("db") + "======")
     } else {
+        brError.lines().forEach(str -> println(str))
         println("======БАЗА ДАННЫХ " + map.get("db") + " УЖЕ СУЩЕСТВУЕТ.======")
     }
     br.close()
@@ -48,14 +49,14 @@ if (b) {
     process.closeStreams()
     process = Runtime.runtime.exec(command.toString())
     br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-    def brError = new BufferedReader(new InputStreamReader(process.getErrorStream()))
+    brError = new BufferedReader(new InputStreamReader(process.getErrorStream()))
     println(command.toString());
-    brError.close();
     if (brError.lines().count() == 0
             && !br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
         println("======СОЗДАН ПОЛЬЗОВАТЕЛЬ " + map.get("user") + "======")
     } else {
         boolean start = true;
+        brError.lines().forEach(str -> println(str))
         while (start) {
             println("======ПОЛЬЗОВАТЕЛЬ " + map.get("user") + " УЖЕ СУЩЕСТВУЕТ.======")
             Scanner scanner = new Scanner(System.in);
