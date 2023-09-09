@@ -36,7 +36,8 @@ if (b) {
     def br = new BufferedReader(new InputStreamReader(process.getInputStream()));
     def brError = new BufferedReader(new InputStreamReader(process.getErrorStream()))
     if (brError.lines().count() == 0 && !br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
-        println("======СОЗДАНА БАЗА ДАННЫХ " + map.get("db") + "======")
+        br.lines().forEach(str -> println(str))
+        println("======СОЗДАНА БАЗА ДАННЫХ " + map.get("db") + " ======")
     } else {
         brError.lines().forEach(str -> println(str))
         println("======БАЗА ДАННЫХ " + map.get("db") + " УЖЕ СУЩЕСТВУЕТ.======")
