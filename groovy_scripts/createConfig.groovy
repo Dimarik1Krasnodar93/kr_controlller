@@ -28,25 +28,24 @@ if (b) {
                     .toLowerCase(Locale.ROOT), e -> e[1]))
     reader.close()
     println(map)
-    StringBuilder command = new StringBuilder("docker container exec db createdb")
+    String firstPartOnResponse = "docker container exec db ";
+    StringBuilder command = new StringBuilder(firstPartOnResponse).append("createdb ")
             .append(map.get("db"))
-            .append("-U postgres -w");
+            .append(" -U postgres -w -d postgres");
 
     process = Runtime.runtime.exec(command.toString())
     def br = new BufferedReader(new InputStreamReader(process.getInputStream()));
     def brError = new BufferedReader(new InputStreamReader(process.getErrorStream()))
     if (!br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
-        br.lines().forEach(str -> println(str))
         println("======СОЗДАНА БАЗА ДАННЫХ " + map.get("db") + " ======")
-    } else {
+        br.lines().forEach(str -> println(str))
+    } else if (brError.lines().count() != 0) {
         brError.lines().forEach(str -> println(str))
         println("======БАЗА ДАННЫХ " + map.get("db") + " УЖЕ СУЩЕСТВУЕТ.======")
     }
     br.close()
-    command = new StringBuilder("docker container exec db psql -U postgres ")
-            .append("-w -d project_db  -c \"CREATE USER ")
-            .append(map.get("user")).append(" WITH PASSWORD \'")
-            .append(map.get("password")).append("\' SUPERUSER;\"")
+    command = new StringBuilder(firstPartOnResponse).append("createuser -l  -s -U postgres ")
+            .append(map.get("user"))
     process.closeStreams()
     process = Runtime.runtime.exec(command.toString())
     br = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -55,6 +54,9 @@ if (b) {
     if (brError.lines().count() == 0
             && !br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
         println("======СОЗДАН ПОЛЬЗОВАТЕЛЬ " + map.get("user") + "======")
+        Runtime.runtime.exec(firstPartOnResponse + "psql  -c \"ALTER USER "
+                + map.get("user") + " WITH PASSWORD "
+                + "\'" +  map.get("password") +"\'\"  -U postgres -d postgres")
     } else {
         boolean start = true;
         brError.lines().forEach(str -> println(str))
