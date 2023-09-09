@@ -32,7 +32,7 @@ if (b) {
     StringBuilder command = new StringBuilder(firstPartOnResponse).append("createdb ")
             .append(map.get("db"))
             .append(" -U postgres -w -d postgres");
-    String commando = "docker container exec db psql -c \"create database project_db\" -U postgres -d postgres -e"
+    String commando = "docker container exec db psql -c \"create database project_db\" -U postgres -w -d postgres -e"
     println("---COMMAND: " + commando)
     process = Runtime.runtime.exec(command.toString())
     def br = new BufferedReader(new InputStreamReader(process.getInputStream()));
