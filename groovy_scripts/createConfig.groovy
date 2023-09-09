@@ -34,9 +34,9 @@ if (b) {
             .append(" -U postgres -w -d postgres");
     String commando = "docker container exec db psql -c \"create database project_db\" -U postgres -w -d postgres -e"
     println("---COMMAND: " + commando)
-    process = Runtime.runtime.exec(command.toString())
-    def br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-    def brError = new BufferedReader(new InputStreamReader(process.getErrorStream()))
+    def proc = Runtime.runtime.exec(command.toString())
+    def br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+    def brError = new BufferedReader(new InputStreamReader(proc.getErrorStream()))
     br.lines().forEach(str -> println(str))
     if (br.lines().findFirst().isPresent() &&
             !br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
