@@ -44,7 +44,7 @@ if (b) {
         println("======БАЗА ДАННЫХ " + map.get("db") + " УЖЕ СУЩЕСТВУЕТ.======")
     }
     br.close()
-    command = new StringBuilder(firstPartOnResponse).append("createuser -l  -s -U postgres ")
+    command = new StringBuilder(firstPartOnResponse).append(" createuser -l  -s -U postgres ")
             .append(map.get("user"))
     process.closeStreams()
     process = Runtime.runtime.exec(command.toString())
