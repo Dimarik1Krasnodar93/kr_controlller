@@ -35,7 +35,7 @@ if (b) {
     process = Runtime.runtime.exec(command.toString())
     def br = new BufferedReader(new InputStreamReader(process.getInputStream()));
     def brError = new BufferedReader(new InputStreamReader(process.getErrorStream()))
-    if (brError.lines().count() == 0 && !br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
+    if (!br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
         br.lines().forEach(str -> println(str))
         println("======СОЗДАНА БАЗА ДАННЫХ " + map.get("db") + " ======")
     } else {
