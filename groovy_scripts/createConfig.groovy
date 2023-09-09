@@ -32,11 +32,13 @@ if (b) {
     StringBuilder command = new StringBuilder(firstPartOnResponse).append("createdb ")
             .append(map.get("db"))
             .append(" -U postgres -w -d postgres");
-    println("---COMMAND: " + command.toString())
+    String commando = "docker container exec db psql -c \"create database project_db\" -U postgres -d postgres"
+    println("---COMMAND: " + commando)
     process = Runtime.runtime.exec(command.toString())
     def br = new BufferedReader(new InputStreamReader(process.getInputStream()));
     def brError = new BufferedReader(new InputStreamReader(process.getErrorStream()))
-    if (br.lines().findFirst().isPresent() && !br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
+    if (br.lines().findFirst().isPresent() &&
+            !br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
         println("======СОЗДАНА БАЗА ДАННЫХ " + map.get("db") + " ======")
         br.lines().forEach(str -> println(str))
     } else if (brError.lines().count() != 0) {
@@ -51,7 +53,7 @@ if (b) {
     br = new BufferedReader(new InputStreamReader(process.getInputStream()));
     brError = new BufferedReader(new InputStreamReader(process.getErrorStream()))
     println(command.toString());
-    if (brError.lines().count() == 0
+    if (br.lines().findFirst().isPresent() && brError.lines().count() == 0
             && !br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
         println("======СОЗДАН ПОЛЬЗОВАТЕЛЬ " + map.get("user") + "======")
         Runtime.runtime.exec(firstPartOnResponse + "psql  -c \"ALTER USER "
