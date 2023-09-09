@@ -50,7 +50,8 @@ if (b) {
     br = new BufferedReader(new InputStreamReader(process.getInputStream()));
     def brError = new BufferedReader(new InputStreamReader(process.getErrorStream()))
     println(command.toString());
-    if (br.lines().count() == 0 && !br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
+    if (brError.lines().count() == 0
+            && !br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
         println("======СОЗДАН ПОЛЬЗОВАТЕЛЬ " + map.get("user") + "======")
     } else {
         boolean start = true;
