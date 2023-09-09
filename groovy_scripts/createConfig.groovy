@@ -27,12 +27,12 @@ if (b) {
                     -> e[0].split("_")[1]
                     .toLowerCase(Locale.ROOT), e -> e[1]))
     reader.close()
-    println(map)
+
     String firstPartOnResponse = "docker container exec db ";
     StringBuilder command = new StringBuilder(firstPartOnResponse).append("createdb ")
             .append(map.get("db"))
             .append(" -U postgres -w -d postgres");
-    String commando = "docker container exec db psql -c \"create database project_db;\" -U postgres -w -d postgres -e"
+    String commando = "docker container exec db psql -c \"create database project_db;\" -U postgres -d postgres -e"
     println("---COMMAND: " + commando)
     def proc = Runtime.getRuntime().exec(commando)
     def br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -46,7 +46,7 @@ if (b) {
         brError.lines().forEach(str -> println(str))
     }
     br.close()
-    print("UserPoint")
+    println("UserPoint")
     command = new StringBuilder(firstPartOnResponse).append(" createuser -l  -s -U postgres ")
             .append(map.get("user"))
     process.closeStreams()
