@@ -32,15 +32,15 @@ if (b) {
     StringBuilder command = new StringBuilder(firstPartOnResponse).append("createdb ")
             .append(map.get("db"))
             .append(" -U postgres -w -d postgres");
-    String commando = "docker container exec db psql -c \"create database project_db\" -U postgres -d postgres"
+    String commando = "docker container exec db psql -c \"create database project_db\" -U postgres -d postgres -e"
     println("---COMMAND: " + commando)
     process = Runtime.runtime.exec(command.toString())
     def br = new BufferedReader(new InputStreamReader(process.getInputStream()));
     def brError = new BufferedReader(new InputStreamReader(process.getErrorStream()))
+    br.lines().forEach(str -> println(str))
     if (br.lines().findFirst().isPresent() &&
             !br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
         println("======СОЗДАНА БАЗА ДАННЫХ " + map.get("db") + " ======")
-        br.lines().forEach(str -> println(str))
     } else if (brError.lines().count() != 0) {
         brError.lines().forEach(str -> println(str))
         println("======БАЗА ДАННЫХ " + map.get("db") + " УЖЕ СУЩЕСТВУЕТ.======")
