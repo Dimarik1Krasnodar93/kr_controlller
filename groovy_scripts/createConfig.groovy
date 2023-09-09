@@ -32,11 +32,11 @@ if (b) {
     StringBuilder command = new StringBuilder(firstPartOnResponse).append("createdb ")
             .append(map.get("db"))
             .append(" -U postgres -w -d postgres");
-
+    println("---COMMAND: " + command.toString())
     process = Runtime.runtime.exec(command.toString())
     def br = new BufferedReader(new InputStreamReader(process.getInputStream()));
     def brError = new BufferedReader(new InputStreamReader(process.getErrorStream()))
-    if (!br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
+    if (br.lines().findFirst().isPresent() && !br.lines().findFirst().get().toLowerCase(Locale.ROOT).contains("error")) {
         println("======СОЗДАНА БАЗА ДАННЫХ " + map.get("db") + " ======")
         br.lines().forEach(str -> println(str))
     } else if (brError.lines().count() != 0) {
