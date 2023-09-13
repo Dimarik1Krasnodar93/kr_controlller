@@ -46,8 +46,8 @@ public class KrControllerApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		loadFromEnv();
-		changeHibernateCfgXml();
-		changeApplicationProperties();
+		//changeHibernateCfgXml();
+	//	changeApplicationProperties();
 		SpringApplication.run(KrControllerApplication.class, args);
 	}
 
