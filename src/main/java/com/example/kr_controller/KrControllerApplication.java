@@ -1,31 +1,19 @@
 package com.example.kr_controller;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import liquibase.integration.commandline.Main;
-import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.core.io.InputStreamSource;
 import org.w3c.dom.*;
-import org.xml.sax.SAXException;
 
-import javax.sql.DataSource;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
 import java.util.Properties;
 
 @SpringBootApplication
@@ -52,7 +40,7 @@ public class KrControllerApplication extends SpringBootServletInitializer {
 	}
 
 	private static void loadFromEnv() {
-		Dotenv dotenv = Dotenv.load();
+		Dotenv dotenv = Dotenv.configure().filename(".env").load();
 		POSTGRES_USER = dotenv.get("POSTGRES_USER");
 		POSTGRES_PASSWORD = dotenv.get("POSTGRES_PASSWORD");
 		POSTGRES_DB = dotenv.get("POSTGRES_DB");

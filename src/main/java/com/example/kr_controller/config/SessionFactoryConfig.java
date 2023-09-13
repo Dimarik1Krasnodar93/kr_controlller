@@ -26,7 +26,6 @@ public class SessionFactoryConfig {
         sServRegBuilder.applySetting("hibernate.connection.url", postgresPath);
         sServRegBuilder.applySetting("hibernate.connection.username", postgresUser);
         sServRegBuilder.applySetting("hibernate.connection.password", postgresPassword);
-
         StandardServiceRegistry registry
             = sServRegBuilder.build();
         return new MetadataSources(registry).buildMetadata().buildSessionFactory();
