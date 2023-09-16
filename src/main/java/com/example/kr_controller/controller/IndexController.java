@@ -18,7 +18,7 @@ public class IndexController {
 
     @GetMapping("/hello")
     public String hello() {
-        return "Hello world";
+        return "Hello world!";
     }
 
     @GetMapping("/users/findAll")
@@ -27,6 +27,7 @@ public class IndexController {
             List list = indexService.findAll();
             return list;
         } catch (Exception ex) {
+            System.out.println(ex.getMessage());
             UserDto userDto = new UserDto("Petr", "Ivanov");
             return List.of(userDto);
         }
