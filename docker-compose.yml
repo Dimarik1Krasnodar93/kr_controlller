@@ -66,7 +66,7 @@ services:
     depends_on:
       - nginx
       - db
-    restart: no
+    restart: always
     networks:
       - app-network
 
