@@ -27,28 +27,6 @@ services:
       - ./db/shortcut/data:/var/lib/postgresql/data
     networks:
       - app-network
-
-  db2:
-    container_name: db2
-    image: postgres
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: kr_db
-    ports:
-      - "5433:5433"
-    restart: always
-    volumes:
-      - ./db/shortcut/data3:/var/lib/postgresql/data
-    networks:
-      - app-network
-
-  app_db:
-      container_name: app_db
-      image: kr_db
-      networks:
-        - app-network
-
   app:
     container_name: kr_controller_master
     build:

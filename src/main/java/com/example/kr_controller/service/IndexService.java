@@ -17,7 +17,9 @@ public class IndexService {
     private final WebClient client;
 
     public List<UserDto> findAll() {
-        List list = client
+        System.out.println("try " + uri);
+        List list
+         = client
                 .get()
                 .uri("%s/users/findAll".formatted(uri))
                 .retrieve()

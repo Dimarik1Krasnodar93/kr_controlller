@@ -17,8 +17,6 @@
 		<java.version>17</java.version>
 	</properties>
 
-
-
 	<dependencies>
 		<dependency>
 			<groupId>com.auth0</groupId>
@@ -102,6 +100,13 @@
 			<artifactId>commons-dbcp2</artifactId>
 			<version>2.7.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>io.github.cdimascio</groupId>
+			<artifactId>dotenv-java</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -151,6 +156,33 @@
 					<changeLogFile>${basedir}/db/master.xml</changeLogFile>
 					<propertyFile>${basedir}/db/liquibase.properties</propertyFile>
 				</configuration>
+			</plugin>
+
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.2.0</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.outputDirectory}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.basedir}</directory>
+									<includes>
+										<include>.env</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

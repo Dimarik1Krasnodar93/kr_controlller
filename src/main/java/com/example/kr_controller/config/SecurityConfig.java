@@ -38,6 +38,7 @@ public class SecurityConfig {
                 authorizationManagerRequestMatcherRegistry
                         -> authorizationManagerRequestMatcherRegistry
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/users/**").permitAll()
                         .requestMatchers("/hello").permitAll()
                         .requestMatchers("/404").permitAll()
                         .anyRequest().authenticated());

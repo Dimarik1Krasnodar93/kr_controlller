@@ -1,5 +1,5 @@
 security:
   jwt:
     secret-key: verysecretkey
-source-api-uri:  http://localhost:8081
+source-api-uri:  http://app_db:8082
 
